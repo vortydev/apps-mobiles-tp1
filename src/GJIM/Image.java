@@ -39,7 +39,28 @@ public class Image {
         width = w;
         height = h;
         maxPixelValue = mPV;
-        pixel = p;
+
+        if (p != null) {
+            pixel = new Pixel[width][height];
+            switch (magicNumber) {
+                // PGM
+                case "P2":
+                    for (int y = 0; y < height; y++) {
+                        for (int x = 0; x < width; x++) {
+                            pixel[x][y] = new PGMPixel(p[x][y].getPixel()[0]);
+                        }
+                    }
+                    break;
+                // PPM
+                case "P3":
+                    for (int y = 0; y < height; y++) {
+                        for (int x = 0; x < width; x++) {
+                            pixel[x][y] = new PPMPixel(p[x][y].getPixel()[0], p[x][y].getPixel()[1],p[x][y].getPixel()[2]);
+                        }
+                    }
+                    break;
+            }
+        }
     }
 
     /**
@@ -51,7 +72,28 @@ public class Image {
         width = i.getWidth();
         height = i.getHeight();
         maxPixelValue = i.getMaxPixelValue();
-        pixel = i.getPixel();
+
+        if (i.pixel != null) {
+            pixel = new Pixel[width][height];
+            switch (magicNumber) {
+                // PGM
+                case "P2":
+                    for (int y = 0; y < height; y++) {
+                        for (int x = 0; x < width; x++) {
+                            pixel[x][y] = new PGMPixel(i.pixel[x][y].getPixel()[0]);
+                        }
+                    }
+                    break;
+                // PPM
+                case "P3":
+                    for (int y = 0; y < height; y++) {
+                        for (int x = 0; x < width; x++) {
+                            pixel[x][y] = new PPMPixel(i.pixel[x][y].getPixel()[0], i.pixel[x][y].getPixel()[1], i.pixel[x][y].getPixel()[2]);
+                        }
+                    }
+                    break;
+            }
+        }
     }
 
     /**
@@ -215,7 +257,9 @@ public class Image {
      * @param i Image to copy onto
      */
     public void copyImage(Image i) {
-        i.setImage(this);
+        if (i != this) {
+            i.setImage(this);
+        }
     }
 
     /**
@@ -279,8 +323,8 @@ public class Image {
         Image i = new Image(magicNumber, p2-p1, c2-c1, maxPixelValue, null);
         i.pixel = new Pixel[i.getWidth()][i.getHeight()];
 
-        for (int y = c1; y <= c2; y++) {
-            for (int x = p1; x <= p2; x++) {
+        for (int y = c1; y < c2; y++) {
+            for (int x = p1; x < p2; x++) {
                 i.pixel[x - p1][y - c1] = pixel[x][y];
             }
         }
@@ -291,7 +335,14 @@ public class Image {
     /**
      * Reduces the size of the Image
      */
-    public void reduceImage(){
+    public void reduceImage() {
+        if (width % 2 == 1) {
+            width--;
+        }
+
+        if (height % 2 == 1) {
+            height--;
+        }
         Pixel[][] rPix = new Pixel[width / 2][height / 2];
 
         switch (magicNumber) {
@@ -336,8 +387,20 @@ public class Image {
      * @param i Image to compare
      * @returns if the Images are identical
      */
-    public boolean isIdentical(Image i){
-        return height == i.getHeight() && width == i.getWidth() && maxPixelValue == i.getMaxPixelValue() && pixel == i.getPixel();
+    public boolean isIdentical(Image i) {
+        if (!(height == i.getHeight() && width == i.getWidth() && maxPixelValue == i.getMaxPixelValue())) {
+            return false;
+        }
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (!(Arrays.equals(pixel[x][y].getPixel(), i.pixel[x][y].getPixel()))) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**

@@ -13,24 +13,90 @@ public class Main
      * @param args
      */
     public static void main(String[] args) {
-        // test
-        File f1 = new File("./src/img/Sherbrooke_Frontenac_nuit.ppm");
-        Image i = new Image();
-        lire(i, f1);
 
+        // LECTURE
+        System.out.println("Tests lecture");
+        Image pgm = new Image(); // image vide
+        Image ppm = new Image();
+        File f1 = new File("./src/img/test.ppm");   // file doesnt exist
+        File f2 = new File("./src/img/test.pgm");   // bad magic number
+        File f3 = new File("./src/img/Sherbrooke_Frontenac_nuit.pgm");
+        File f4 = new File("./src/img/Sherbrooke_Frontenac_nuit.ppm");  // valid
+
+        lire(pgm, f1);  // fail
+        lire(pgm, f2);  // fail
+        lire(pgm, f3);  // pass
+        lire(ppm, f4);  // pass
+
+        // ÉCRITURE
+        System.out.println("\nTests écriture");
+        File w1 = new File("./src/img/write.pgm");
+        File w2 = new File("./src/img/write.ppm");
+
+        ecrire(w1, ppm);    // fail: pgm file ppm img
+        ecrire(w2, pgm);    // fail: ppm file pgm img
+        ecrire(w1, pgm);    // pass: pgm file pgm img
+        ecrire(w2, ppm);    // pass: ppm file ppm img
+
+        // COPIER
+        System.out.println("\nTests copie");
+        Image i1 = new Image();
         Image i2 = new Image();
-        copier(i, i2);
+        copier(ppm, ppm);   // pass: fait rien
+        copier(ppm, i1);    // pass
+        copier(pgm, i2);
 
-        pivoter90(i2);
-        reduire(i2);
+        // COULEUR PRÉPONDÉRANTE
+        System.out.println("\nTests couleur prépondérante");
 
-        File f2 = new File("./src/img/poggies.ppm");
-        ecrire(f2, i2);
-
-        int[] col = couleur_preponderante(i2);
-        for (int c = 0; c < col.length; c++) {
-            System.out.println(col[c]);
+        int[] col = couleur_preponderante(ppm);
+        System.out.println("Image ppm");
+        for (int b = 0; b < col.length; b++) {
+            System.out.println(col[b] + " ");
         }
+
+        // ECLAIRCIR NOIRCIR
+        System.out.println("Image pgm");
+        eclaircir_noircir(i2, 10);
+        int[] en1 = couleur_preponderante(i2);
+        for (int a = 0; a < en1.length; a++) {
+            System.out.println(en1[a] + " ");
+        }
+
+        eclaircir_noircir(i2, 43);
+        int[] en2 = couleur_preponderante(i2);
+        for (int a = 0; a < en2.length; a++) {
+            System.out.println(en2[a] + " ");
+        }
+
+        eclaircir_noircir(i2, -10000);
+        int[] en3 = couleur_preponderante(i2);
+        for (int a = 0; a < en3.length; a++) {
+            System.out.println(en3[a] + " ");
+        }
+
+        // extraction
+        ppm = extraire(ppm, 125, 75, 220, 120);
+        // réduction
+        reduire(ppm);
+
+        File e1 = new File("./src/img/poggies.ppm");
+        ecrire(e1, i2);
+
+        reduire(pgm);
+        reduire(pgm);
+        // rotation
+        pivoter90(pgm);
+        pivoter90(pgm);
+        ecrire(f2, pgm);
+
+        // IDENTIQUES
+        System.out.println("\nImages identiques");
+        System.out.println(sont_identiques(ppm, i1));
+
+        Image identique = new Image();
+        copier(ppm, identique);
+        System.out.println(sont_identiques(ppm, identique));
     }
 
     /**
