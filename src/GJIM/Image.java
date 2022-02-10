@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -39,6 +42,10 @@ public class Image {
         pixel = p;
     }
 
+    /**
+     * Sets the Image's parameters.
+     * @param i Image to read the data from
+     */
     public void setImage(Image i) {
         magicNumber = i.getMagicNumber();
         width = i.getWidth();
@@ -212,13 +219,40 @@ public class Image {
     }
 
     /**
-     * Gets the value that is the most present into the Image's pixels
+     * Gets the value that is the most common in the Image's pixels.
      * @return Image's most common pixel value
      */
     public int[] getPreponderantCol() {
-        // TODO fn
-//        return pixel.getPixel();
-        return null;
+        Map<Pixel, Integer> dic = new HashMap<Pixel, Integer>();
+        Pixel prepPix = null;
+        int max = 0;
+        boolean samePixelFound = false;
+
+        for (Pixel[] r : pixel) {
+            for (Pixel c : r) {
+                samePixelFound = false;
+                for (Pixel p : dic.keySet()) {
+                    if (Arrays.equals(p.getPixel(), c.getPixel())) {
+                        dic.replace(p, dic.get(p) + 1);
+                        samePixelFound = true;
+                        break;
+                    }
+                }
+                if (!samePixelFound) {
+                    dic.put(c, 1);
+                }
+            }
+        }
+
+        for (Pixel p : dic.keySet()) {
+
+            if (dic.get(p) > max) {
+                max = dic.get(p);
+                prepPix = p;
+            }
+        }
+
+        return prepPix.getPixel();
     }
 
     /**
