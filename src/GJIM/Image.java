@@ -212,29 +212,36 @@ public class Image {
     public int[] getPreponderantCol() {
         // TODO fn
 
-        Map<Pixel, Integer> dick = new HashMap<Pixel, Integer>();
+        Map<Pixel, Integer> dic = new HashMap<Pixel, Integer>();
 
         Pixel prepPix = null;
 
         int max = 0;
 
+        boolean samePixelFound = false;
+
         for (Pixel[] r : pixel) {
 
-            for (Pixel p : r) {
+            for (Pixel c : r) {
 
-                if (dick.containsKey(p)) {
-                    dick.replace(p, dick.get(p) + 1);
+                for (Pixel p : dic.keySet()) {
+
+                    if (p.getPixel().equals(c.getPixel())) {
+                        dic.replace(p, dic.get(p) + 1);
+                        samePixelFound = true;
+                        break;
+                    }
                 }
-                else {
-                    dick.put(p, 1);
+                if (!samePixelFound) {
+                    dic.put(c, 1);
                 }
             }
         }
 
-        for (Pixel p : dick.keySet()) {
+        for (Pixel p : dic.keySet()) {
 
-            if (dick.get(p) > max) {
-                max = dick.get(p);
+            if (dic.get(p) > max) {
+                max = dic.get(p);
                 prepPix = p;
             }
         }
