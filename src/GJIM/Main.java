@@ -1,8 +1,6 @@
 package GJIM;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 /**
  * Main program calling the Grape Juice Image Manipulation library.
@@ -16,9 +14,12 @@ public class Main
      */
     public static void main(String[] args) {
         // test
-        File f = new File("./src/img/test.pgm");
+        File f1 = new File("./src/img/Sherbrooke_Frontenac_nuit.ppm");
         Image i = new Image();
-        i.readFile(f);
+        i.readFile(f1);
+
+        File f2 = new File("./src/img/poggies.ppm");
+        i.writeFile(f2);
     }
 
     /**
