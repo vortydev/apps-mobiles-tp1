@@ -250,7 +250,47 @@ public class Image {
      * Reduces the size of the Image
      */
     public void reduceImage(){
-        // TODO fn
+        Pixel[][] rPix = new Pixel[width / 2][height / 2];
+
+        switch (magicNumber) {
+            // PGM
+            case "P2":
+                for (int y = 0; y < height / 2; y++) {
+                    for (int x = 0; x < width / 2; x++) {
+
+                        rPix[x][y] = new PGMPixel(
+                                (pixel[x * 2][y * 2].getPixel()[0]
+                        + pixel[(x + 1) * 2][y * 2].getPixel()[0]
+                        + pixel[x * 2][(y + 1) * 2].getPixel()[0]
+                        + pixel[(x + 1) * 2][(y + 1) * 2].getPixel()[0]) / 4
+                        );
+                    }
+                }
+                break;
+            // PPM
+            case "P3":
+                for (int y = 0; y < height / 2; y++) {
+                    for (int x = 0; x < width / 2; x++) {
+                        rPix[x][y] = new PPMPixel(
+                                (pixel[x * 2][y * 2].getPixel()[0]
+                                        + pixel[x * 2 + 1][y * 2].getPixel()[0]
+                                        + pixel[x * 2][y * 2 + 1].getPixel()[0]
+                                        + pixel[x * 2 + 1][y * 2].getPixel()[0]) / 4,
+                                (pixel[x * 2][y * 2].getPixel()[1]
+                                        + pixel[x * 2 + 1][y * 2].getPixel()[1]
+                                        + pixel[x * 2][y * 2 + 1].getPixel()[1]
+                                        + pixel[x * 2 + 1][y * 2 + 1].getPixel()[1]) / 4,
+                                (pixel[x * 2][y * 2].getPixel()[2]
+                                        + pixel[(x + 1) * 2][y * 2].getPixel()[2]
+                                        + pixel[x * 2][y * 2 + 1].getPixel()[2]
+                                        + pixel[x * 2 + 1][y * 2 + 1].getPixel()[2]) / 4
+                        );
+                    }
+                }
+                break;
+        }
+
+        pixel = rPix;
     }
 
     /**
