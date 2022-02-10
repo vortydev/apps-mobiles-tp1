@@ -39,6 +39,14 @@ public class Image {
         pixel = p;
     }
 
+    public void setImage(Image i) {
+        magicNumber = i.getMagicNumber();
+        width = i.getWidth();
+        height = i.getHeight();
+        maxPixelValue = i.getMaxPixelValue();
+        pixel = i.getPixel();
+    }
+
     /**
      * Gets the Image's magic number.
      * @return Image's magic number
@@ -200,7 +208,7 @@ public class Image {
      * @param i Image to copy onto
      */
     public void copyImage(Image i) {
-        i = new Image(magicNumber, width, height, maxPixelValue, pixel);
+        i.setImage(this);
     }
 
     /**
@@ -306,21 +314,16 @@ public class Image {
      * Rotates the Image 90 degrees.
      */
     public void pivot90() {
-        // TODO isa
-        for (int y = 0; y < height; y++){
-            for (int x = 0; x < width; x++){
-                // 4 x 6
-                /*Pixel temp = pixel[y][x];
-                pixel[y][x]=pixel[x][y];
-                pixel[x][y]=temp;*/
-            }
-        }
+        Image i = new Image();
+        copyImage(i);
 
-        for (int i = 0; i < height; i++){
-            for (int j = i; j < width/2; j++){
-                Pixel temp = pixel[i][j];
-                pixel[i][j]=pixel[i][width-j-1];
-                pixel[i][width-j-1]=temp;
+        width = i.getHeight();
+        height = i.getWidth();
+        pixel = new Pixel[width][height];
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                pixel[x][y] = i.getPixel()[y][width - x - 1];
             }
         }
     }

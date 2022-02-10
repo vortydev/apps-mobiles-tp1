@@ -16,10 +16,14 @@ public class Main
         // test
         File f1 = new File("./src/img/Sherbrooke_Frontenac_nuit.ppm");
         Image i = new Image();
-        i.readFile(f1);
+        lire(i, f1);
+
+        Image i2 = new Image();
+        copier(i, i2);
+        i2.pivot90();
 
         File f2 = new File("./src/img/poggies.ppm");
-        i.writeFile(f2);
+        ecrire(f2, i2);
     }
 
     /**
@@ -27,7 +31,7 @@ public class Main
      * @param i Image to load.
      * @param f File to read.
      */
-    public void lire(Image i, File f) {
+    public static void lire(Image i, File f) {
         i.readFile(f);
     }
 
