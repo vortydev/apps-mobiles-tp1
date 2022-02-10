@@ -1,21 +1,27 @@
 package GJIM;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
-public class PGMPixel implements Pixel {
-
+/**
+ * Black and white Pixel.
+ * @author François-Nicolas G.
+ * @author Étienne Ménard
+ */
+public class PGMPixel implements Pixel
+{
     private int val;
 
+    /**
+     * Pixel constructor.
+     * @param v Pixel's value
+     */
     public PGMPixel(int v) {
         val = v;
     }
 
     /**
-     * Returns the pixel value of the pixel
+     * Returns the pixel value of the pixel.
      * @return Pixel value
      */
     public int getVal() {
@@ -23,7 +29,7 @@ public class PGMPixel implements Pixel {
     }
 
     /**
-     * Sets the pixel value of the pixel
+     * Sets the pixel value of the pixel.
      * @param val new value
      */
     public void setVal(int val) {
@@ -39,7 +45,7 @@ public class PGMPixel implements Pixel {
     }
 
     /**
-     * Sets the pixel value as the value inside pVals
+     * Sets the pixel value as the value inside pVals.
      * @param pVals Array of values with the new pixel value
      */
     public void setPixel(int[] pVals) {
@@ -47,13 +53,12 @@ public class PGMPixel implements Pixel {
     }
 
     /**
-     * Writes a pixel using the fileWriter
-     * @param fW FileWriter linked to a file to write to
+     * Writes a pixel's value(s) to a file.
+     * @param fW FileWriter object
      */
     public void writePixel(FileWriter fW) {
-
         try {
-            fW.write(val);
+            fW.write(val + " ");
         }
         catch (IOException exception) {
             System.out.println(exception.getMessage());
@@ -61,8 +66,9 @@ public class PGMPixel implements Pixel {
     }
 
     /**
-     * Lightens or darkens a pixel by a value val
-     * @param val Amount to add to the pixel value
+     * Modifies the value of a pixel.
+     * @param val amount added or subtracted to the pixel
+     * @param maxVal maximum value allowed by the Image
      */
     public void lightenDarken(int val, int maxVal) {
         this.val += val;
