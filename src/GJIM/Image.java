@@ -210,22 +210,15 @@ public class Image {
      * @return Image's most common pixel value
      */
     public int[] getPreponderantCol() {
-        // TODO fn
-
         Map<Pixel, Integer> dic = new HashMap<Pixel, Integer>();
-
         Pixel prepPix = null;
-
         int max = 0;
-
         boolean samePixelFound = false;
 
         for (Pixel[] r : pixel) {
-
             for (Pixel c : r) {
-
+                samePixelFound = false;
                 for (Pixel p : dic.keySet()) {
-
                     if (p.getPixel().equals(c.getPixel())) {
                         dic.replace(p, dic.get(p) + 1);
                         samePixelFound = true;

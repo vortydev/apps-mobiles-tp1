@@ -20,6 +20,10 @@ public class Main
 
         File f2 = new File("./src/img/poggies.ppm");
         i.writeFile(f2);
+        int[] pog = couleur_preponderante(i);
+        for (int q = 0; q < pog.length; q++) {
+            System.out.println(pog[q]);
+        }
     }
 
     /**
