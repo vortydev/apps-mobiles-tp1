@@ -5,9 +5,9 @@ Répertoire du Travail Pratique 1 en Java du cours Développement d'applications
 Étienne Ménard, François-Nicolas Gitzhofer et Isabelle Rioux.
 
 ### Réflexion sur comment améliorer le projet:
-Le calcul de la couleur prépondérante prend environ 12 secondes pour une petite image et peux être plus lent sur une image plus grande. Il faudrait donc en modifier le code pour l'accélérer.
-Il aurait fallu que l'on fasse nos tests du programme plus tôt pour ainsi règler les problèmes trouvés à ce moment là. 
-Il aurait aussi été plus aventageux d'interfacer dans le readFile() les pixels de type PPM et PGM.
+- Le calcul de la couleur prépondérante prend environ 12 secondes pour une petite image et peut être plus lent pour une image plus grande. Il faudrait donc optimiser cette méthode.
+- Il aurait fallu que l'on fasse nos tests du programme plus tôt pour ainsi règler des problèmes rencontrés plus tôt. 
+- Il aurait aussi été pertinent d'utiliser d'avantage l'interfaçage dans notre méthode readFile() construire les pixels de type PPM et PGM.
 
 
 
