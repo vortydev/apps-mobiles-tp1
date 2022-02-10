@@ -297,41 +297,37 @@ public class Image {
         switch (magicNumber) {
             // PGM
             case "P2":
-                for (int y = 0; y < height / 2; y++) {
-                    for (int x = 0; x < width / 2; x++) {
+                for (int y = 0; y < height; y+=2) {
 
-                        rPix[x][y] = new PGMPixel(
-                                (pixel[x * 2][y * 2].getPixel()[0]
-                        + pixel[(x + 1) * 2][y * 2].getPixel()[0]
-                        + pixel[x * 2][(y + 1) * 2].getPixel()[0]
-                        + pixel[(x + 1) * 2][(y + 1) * 2].getPixel()[0]) / 4
-                        );
+                    for (int x = 0; x < width; x+=2) {
+
+                        int tmp = pixel[x][y].getPixel()[0] + pixel[x + 1][y].getPixel()[0] + pixel[x][y + 1].getPixel()[0] + pixel[x + 1][y + 1].getPixel()[0];
+                        tmp /= 4;
+                        rPix[x / 2][y / 2] = new PGMPixel(tmp);
                     }
                 }
                 break;
             // PPM
             case "P3":
-                for (int y = 0; y < height / 2; y++) {
-                    for (int x = 0; x < width / 2; x++) {
-                        rPix[x][y] = new PPMPixel(
-                                (pixel[x * 2][y * 2].getPixel()[0]
-                                        + pixel[x * 2 + 1][y * 2].getPixel()[0]
-                                        + pixel[x * 2][y * 2 + 1].getPixel()[0]
-                                        + pixel[x * 2 + 1][y * 2].getPixel()[0]) / 4,
-                                (pixel[x * 2][y * 2].getPixel()[1]
-                                        + pixel[x * 2 + 1][y * 2].getPixel()[1]
-                                        + pixel[x * 2][y * 2 + 1].getPixel()[1]
-                                        + pixel[x * 2 + 1][y * 2 + 1].getPixel()[1]) / 4,
-                                (pixel[x * 2][y * 2].getPixel()[2]
-                                        + pixel[(x + 1) * 2][y * 2].getPixel()[2]
-                                        + pixel[x * 2][y * 2 + 1].getPixel()[2]
-                                        + pixel[x * 2 + 1][y * 2 + 1].getPixel()[2]) / 4
-                        );
+                for (int y = 0; y < height; y += 2) {
+                    for (int x = 0; x < width; x += 2) {
+
+                        int tmpr = pixel[x][y].getPixel()[0] + pixel[x + 1][y].getPixel()[0] + pixel[x][y + 1].getPixel()[0] + pixel[x + 1][y + 1].getPixel()[0];
+                        int tmpg = pixel[x][y].getPixel()[1] + pixel[x + 1][y].getPixel()[1] + pixel[x][y + 1].getPixel()[1] + pixel[x + 1][y + 1].getPixel()[1];
+                        int tmpb = pixel[x][y].getPixel()[2] + pixel[x + 1][y].getPixel()[2] + pixel[x][y + 1].getPixel()[2] + pixel[x + 1][y + 1].getPixel()[2];
+
+                        tmpr /= 4;
+                        tmpg /= 4;
+                        tmpb /= 4;
+
+                        rPix[x / 2][y / 2] = new PPMPixel(tmpr, tmpg, tmpb);
                     }
                 }
                 break;
         }
 
+        width /= 2;
+        height /= 2;
         pixel = rPix;
     }
 

@@ -20,10 +20,17 @@ public class Main
 
         Image i2 = new Image();
         copier(i, i2);
-        i2.pivot90();
+
+        pivoter90(i2);
+        reduire(i2);
 
         File f2 = new File("./src/img/poggies.ppm");
         ecrire(f2, i2);
+
+        int[] col = couleur_preponderante(i2);
+        for (int c = 0; c < col.length; c++) {
+            System.out.println(col[c]);
+        }
     }
 
     /**
