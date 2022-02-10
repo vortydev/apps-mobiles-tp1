@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -209,8 +211,35 @@ public class Image {
      */
     public int[] getPreponderantCol() {
         // TODO fn
-//        return pixel.getPixel();
-        return null;
+
+        Map<Pixel, Integer> dick = new HashMap<Pixel, Integer>();
+
+        Pixel prepPix = null;
+
+        int max = 0;
+
+        for (Pixel[] r : pixel) {
+
+            for (Pixel p : r) {
+
+                if (dick.containsKey(p)) {
+                    dick.replace(p, dick.get(p) + 1);
+                }
+                else {
+                    dick.put(p, 1);
+                }
+            }
+        }
+
+        for (Pixel p : dick.keySet()) {
+
+            if (dick.get(p) > max) {
+                max = dick.get(p);
+                prepPix = p;
+            }
+        }
+
+        return prepPix.getPixel();
     }
 
     /**
